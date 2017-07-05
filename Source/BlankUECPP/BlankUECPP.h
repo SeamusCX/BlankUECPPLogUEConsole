@@ -3,4 +3,5 @@
 #pragma once
 
 #include "Engine.h"
-
+#include "Logging/MessageLog.h"
+extern FName LoggerName;//定义一个LOG模块名称

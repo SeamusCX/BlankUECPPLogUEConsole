@@ -2,10 +2,25 @@
 
 #include "BlankUECPP.h"
 #include "LogGameMode.h"
+#include "Developer/MessageLog/Public/MessageLogModule.h"
+
+
+
+#define LOCTEXT_NAMESPACE "DAWA_CoolGameLog"
+
+DEFINE_LOG_CATEGORY(LogCoolGameModee);
+
+
+#define FTEXT(x) LOCTEXT(x,x)
+
+FName LoggerName("DAWA_CoolGameMode");
+
 
 ALogGameMode::ALogGameMode()
 {
-
+	InitMessageLogType(LoggerName);
+	OutPutMessageLog();
+	FMessageLog(LoggerName).Warning(FTEXT("A warining message from GameMode Actor"));
 }
 
 void ALogGameMode::BeginPlay()
@@ -23,7 +38,9 @@ void ALogGameMode::BeginPlay()
 	OutputLog();
 
 	OutputConsole();
-
+	OutPutScreen();
+	OutPutCustomLog();
+	OutPutMessageLog();
 }
 
 void ALogGameMode::OutputLog()
@@ -43,3 +60,48 @@ void ALogGameMode::OutputConsole()
 	GetWorld()->GetFirstPlayerController()->ClientMessage(TEXT("Console 中文!"));
 }
 
+
+void ALogGameMode::OutPutScreen()
+{
+	GEngine->AddOnScreenDebugMessage(-1,10.0f,FColor::Red,TEXT("向屏幕输出信息10！"));
+	GEngine->AddOnScreenDebugMessage(-1,12.0f,FColor::Green, TEXT("向屏幕输出信息12！"));
+
+}
+
+void ALogGameMode::OutPutCustomLog()
+{
+	UE_LOG(LogCoolGameModee,Warning,TEXT("自己的日志类型a"));
+}
+
+void ALogGameMode::InitMessageLogType(FName loggerName)
+{
+	FMessageLogModule& MessageLogModule = FModuleManager::LoadModuleChecked<FMessageLogModule>("MessageLog");
+        
+
+	FMessageLogInitializationOptions   InitOptions;
+	InitOptions.bShowPages=true;
+	InitOptions.bShowFilters = true;
+	FText LogListingName = FTEXT("CoolGame's Log Listing");
+	MessageLogModule.RegisterLogListing(LoggerName , LogListingName, InitOptions);
+
+
+
+
+}
+
+void ALogGameMode::OutPutMessageLog()
+{
+	FMessageLog(LoggerName).Error(FTEXT("啊哦，一个严重的错误！！"));
+	FMessageLog(LoggerName).Warning(FTEXT("一个警告信息！！"));
+
+}
+
+
+
+
+
+
+
+
+
+#undef LOCTEXT_NAMESPACE 

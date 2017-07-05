@@ -8,6 +8,13 @@
 /**
  * 
  */
+//自定义一个LogCoolGameMode的日志类型
+//这里是一个声明，定义在cpp中
+//后面的两个参数ElogVerbosity枚举，代表输出级别，一般是all
+
+DECLARE_LOG_CATEGORY_EXTERN(LogCoolGameModee,Log,All);
+
+
 UCLASS()
 class BLANKUECPP_API ALogGameMode : public AGameModeBase
 {
@@ -25,4 +32,12 @@ protected:
 
 	//使用Console输出
 	void OutputConsole();
+	//向屏幕输出
+	void OutPutScreen();
+	//自定义日志类型输出
+	void OutPutCustomLog();
+	//初始化MessageLog类型 InitMessageType
+	void InitMessageLogType(FName loggerName);
+    //想MessageLog输出
+	void OutPutMessageLog();
 };
