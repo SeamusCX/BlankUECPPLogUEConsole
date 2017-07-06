@@ -2,7 +2,7 @@
 
 #include "BlankUECPP.h"
 #include "CoolObject.h"
-
+#include "UserProfile.h"
 
 // Sets default values
 ACoolObject::ACoolObject()
@@ -23,6 +23,32 @@ void ACoolObject::BeginPlay()
 void ACoolObject::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+
+}
+
+void ACoolObject::CreateUserProfile()
+{
+	if (!UserProfile)
+	{
+		UserProfile = NewObject<UUserProfile>(GetTransientPackage(), UserProfileClass);
+	}
+	GEngine->AddOnScreenDebugMessage(-1,10.0f,FColor::Red,FString::Printf(TEXT("BP_UserProfile Address=%p\n Armor=%f HpMax=%f"),UserProfile, UserProfile->Armor, UserProfile->HpMax));
+}
+
+void ACoolObject::DeleteUsetProfile()
+{
+	if (UserProfile)
+	{
+		UserProfile->ConditionalBeginDestroy();
+		UserProfile = nullptr;
+		GEngine->AddOnScreenDebugMessage(-1, 10.5f, FColor::Green, TEXT("Delete UseProfile!!£¡"));
+	}
+}
+
+void ACoolObject::SayHelloToUnreal()
+{
+	GEngine->AddOnScreenDebugMessage(-1,10.5f,FColor::Green,TEXT("Hello Unreal!!!"));
+
 
 }
 
